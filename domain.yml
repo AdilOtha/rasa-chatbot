@@ -1,0 +1,50 @@
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- greet
+- goodbye
+- affirm
+- deny
+- mood_great
+- mood_unhappy
+- bot_challenge
+- hello_world
+- search_restaurant
+- corona_state
+- plant_protect
+entities:
+- hotel
+- state
+- plant_area
+- plant_name
+- plant_problem
+slots:
+  plant_name:
+    type: text
+    influence_conversation: true
+  plant_problem:
+    type: text
+    influence_conversation: true
+  plant_area:
+    type: text
+    influence_conversation: true
+responses:
+  utter_greet:
+  - text: અરે! તમે કેમ છો?
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: તમને ઉત્સાહ આપવા માટે અહીં કંઈક છે
+  utter_did_that_help:
+  - text: તે તમને મદદ કરી?
+  utter_happy:
+  - text: સરસ, ચાલુ રાખો!
+  utter_goodbye:
+  - text: આવજો
+  utter_iamabot:
+  - text: હું એક બોટ છું, રાસા દ્વારા સંચાલિત.
+actions:
+- action_hello_world
+- action_restaurant
+- action_corona_tracker
+- action_plant_protection_solution

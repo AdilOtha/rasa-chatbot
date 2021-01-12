@@ -1,0 +1,3 @@
+SELECT * FROM `table 1` WHERE `સેકટર`="ખેત" AND `ક્વેરી લખો`="પ્લાન્ટ પ્રોટેક્શન"
+
+https://botfront.io/blog/better-intent-classification-and-entity-extraction-with-diet-classifier-pipeline-optimization
