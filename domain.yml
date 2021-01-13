@@ -13,22 +13,15 @@ intents:
 - search_restaurant
 - corona_state
 - plant_protect
+- plant_price
+- out_of_scope
+- nlu_fallback
 entities:
 - hotel
 - state
 - plant_area
 - plant_name
 - plant_problem
-slots:
-  plant_name:
-    type: text
-    influence_conversation: true
-  plant_problem:
-    type: text
-    influence_conversation: true
-  plant_area:
-    type: text
-    influence_conversation: true
 responses:
   utter_greet:
   - text: અરે! તમે કેમ છો?
@@ -43,8 +36,14 @@ responses:
   - text: આવજો
   utter_iamabot:
   - text: હું એક બોટ છું, રાસા દ્વારા સંચાલિત.
+  utter_default:
+  - text: માફ કરશો મને તે મળ્યું નથી. તમે ફરીથી કહી શકો છો?
+  utter_out_of_scope:
+  - text: માફ કરશો, હું તે વિનંતીને સંભાળી શકતો નથી.
 actions:
 - action_hello_world
 - action_restaurant
 - action_corona_tracker
 - action_plant_protection_solution
+- action_please_rephrase
+- action_plant_price

@@ -45,5 +45,10 @@ stories:
 
   - story: plant protection query
     steps:
-      - intent: plant_protect
+      - intent: plant_protect                
       - action: action_plant_protection_solution
+
+  - story: plant price query
+    steps:
+      - intent: plant_price        
+      - action: action_plant_price

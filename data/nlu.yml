@@ -89,32 +89,37 @@ nlu:
     - [ફળ](plant_area) [તોડ](plant_problem) સમસ્યા
     - [રુટ](plant_area) માં [ફૂગ](plant_problem) સમસ્યા
     - [પાક](plant_area) માં [ડિમ્ભક](plant_problem) સમસ્યા
-    - [લાર્વા](plant_problem) નિયંત્રણ માહિતી
+    - [તમાકુ](plant_name) માં [લાર્વા](plant_problem) નિયંત્રણ માહિતી
     - [સફેદ ફ્લાય](plant_problem) નિયંત્રણ માહિતી
+    - મને [સફેદ ફ્લાય](plant_problem) નિયંત્રણ માહિતી આપો
     - [જીરું](plant_name) માં [ફૂગ](plant_problem) સમસ્યા
     - [કપાસ](plant_name) માં [ફૂગ](plant_problem) સમસ્યા
     - [ચારા જુવાર](plant_name) માં [ફૂગ](plant_problem) સમસ્યા
     - [લીલા ચણા](plant_name) માં [ફૂગ](plant_problem) સમસ્યા
     - [મગની ફળી](plant_name) માં [ફૂગ](plant_problem) સમસ્યા
-- lookup: plant_name
+    - મારે [કપાસ](plant_name) માં [ફૂગ](plant_problem) સમસ્યા છે
+    - [કપાસ](plant_name) માં [ફૂગ](plant_problem) નો શું ઈલાજ છે?
+    - [કપાસ](plant_name) માં [ફૂગ](plant_problem) થાય તો શું કરવું?
+    - [સફેદ ફ્લાય](plant_problem) ના માટે શું કરવું?
+- intent: plant_price
   examples: |
-    - જીરું
-    - કપાસ
-    - ઘઉં
-    - મકાઇ
-    - રાઈ
-    - કાસ્ટોર
-    - જુવાર
-    - ચારા જુવાર
-    - જવ
-    - ચારા મકાઈ
-    - લીલા ચણા
-    - તલ
-    - આદુ
-    - લ્યુસેર્ન
-    - ગદબ
-    - મગફળી
-    - વટાળા અખરોટ
-    - મગની ફળી
-    - અખરોટ
-    - વટાળા
+    - મને [કપાસ](plant_name) ની બજાર માહિતી જોઈએ છે
+    - મને [લીલા ચણા](plant_name) ની બજાર માહિતી વિશે જણાવશો?
+    - [ઘઉં](plant_name) નો ભાવ શું છે?
+    - માર્કેટમાં [મકાઈ](plant_name) નો ભાવ શું ચાલે છે?
+    - મને [જીરું](plant_name) ના ભાવ વિશે જાણકારી જોઈએ છે
+    - [જુવાર](plant_name) નો ભાવ બતાવો
+    - આજકાલ [ઘઉં](plant_name) નો ભાવ શું ચાલે છે?
+    - મંડીમાં [અખરોટ](plant_name) નો ભાવ શું છે?
+    - [અખરોટ](plant_name) ની કિંમત બતાવો
+    - બજારમાં [રાઈ](plant_name) ની કિંમત શું છે?
+    - બજારમાં [અખરોટ](plant_name) નો ભાવ શું ચાલે છે?
+- intent: out_of_scope
+  examples: |
+    - મને તમારો વોટ્સએપ નંબર આપો
+    - 2 + 2 શું છે?
+    - ભારતના રાષ્ટ્રપતિ કોણ છે?
+    - ખેડૂતો ની લડાઈ ક્યારે પૂરી થશે?
+- intent: nlu_fallback
+  examples: |
+    - ખેડૂતો ની લડાઈ ક્યારે પૂરી થશે?
