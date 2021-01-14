@@ -62,26 +62,6 @@ nlu:
     - તમે માનવ છો?
     - શું હું બોટ સાથે વાત કરું છું?
     - શું હું મનુષ્ય સાથે વાત કરું છું?
-- intent: hello_world
-  examples: |
-    - હેલ્લો દુનિયા
-    - દુનિયા
-    - પ્રોગ્રામિંગ
-- intent: search_restaurant
-  examples: |
-    - મને [ભારતીય](hotel) રેસ્ટોરન્ટ બતાવો
-    - મને [ચાઇનીઝ](hotel) રેસ્ટોરન્ટ બતાવો
-    - મને [થાઇ](hotel) રેસ્ટોરન્ટ બતાવો
-    - મને [ઇટાલિયન](hotel) રેસ્ટોરન્ટ બતાવો
-- intent: corona_state
-  examples: |
-    - [ઇન્દિયા](state)
-    - [ભારત](state)
-    - [કોરોના](state)
-    - [ગુજરાત](state)
-    - [રાજસ્થાન](state)
-    - [માધ્યાપ્રદેશ](state)
-    - [મહારાષ્ટ્ર](state)
 - intent: plant_protect
   examples: |
     - [પાક](plant_area) માં [જંતુઓ](plant_problem) સમસ્યા
@@ -123,6 +103,21 @@ nlu:
 - intent: nlu_fallback
   examples: |
     - ખેડૂતો ની લડાઈ ક્યારે પૂરી થશે?
+- intent: plant_fertilizer
+  examples: |
+    - [કેરીની](plant_name) ખાતર માહિતી આપો
+    - મને [કેરીની](plant_name) ખાતર માહિતી જણાવશો?
+    - [ઘઉં](plant_name) માં કયુ ખાતર નખાય?
+    - મને ખાતરની માહિતી જોઈએ છે [ઘઉં](plant_name) માટે
+    - [જીરું](plant_name) ના પાક માં કયુ ખાતર નખાય?
+    - મને [વરીયાળી](plant_name) ના પાક માં ખાતર માહિતી જોઈએ છે
+    - [ઘઉંના](plant_name) ખાતર વિશે સલાહ આપો
+    - મને ખાતર વિશે સલાહ જોઈએ છે [વરિયાળી](plant_name) માટે
+    - [જીરું](plant_name) ના પાક માં કયું ખાતર નાખવું જોઈએ?
+    - [કેરી](plant_name) ના વિકાસ માટે શું કરાય?
+    - [ઘઉં](plant_name) ના ફેલાવો માટે શું કરાય?
+    - [જીરું](plant_name) નો ફેલાવો વધારવા શું કરાય?
+    - મારે [વરીયાળી](plant_name) પાકનો વિકાસ વધારવું છે
 - lookup: plant_name
   examples: |
     -અન્ય

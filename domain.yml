@@ -9,11 +9,9 @@ intents:
 - mood_great
 - mood_unhappy
 - bot_challenge
-- hello_world
-- search_restaurant
-- corona_state
 - plant_protect
 - plant_price
+- plant_fertilizer
 - out_of_scope
 - nlu_fallback
 entities:
@@ -41,9 +39,7 @@ responses:
   utter_out_of_scope:
   - text: માફ કરશો, હું તે વિનંતીને સંભાળી શકતો નથી.
 actions:
-- action_hello_world
-- action_restaurant
-- action_corona_tracker
 - action_plant_protection_solution
 - action_please_rephrase
 - action_plant_price
+- action_plant_fertilizer
