@@ -30,15 +30,23 @@ stories:
 
   - story: plant protection query
     steps:
-      - intent: plant_protect                
+      - intent: plant_protect
+        entities:
+        - plant_name
+        - plant_problem
+        - plant_area
       - action: action_plant_protection_solution
 
   - story: plant price query
     steps:
-      - intent: plant_price        
+      - intent: plant_price
+        entities:
+        - plant_name
       - action: action_plant_price
 
   - story: plant fertilizer query
     steps:
       - intent: plant_fertilizer
+        entities:
+        - plant_name
       - action: action_plant_fertilizer

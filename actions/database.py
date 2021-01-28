@@ -46,7 +46,7 @@ def GetFertilizer(plant_name):
     mydb = mysql.connector.connect(host="localhost", user="root",
                                    passwd="", database="kisan")
     mycursor = mydb.cursor(buffered=True)
-    sql = "SELECT `response` FROM `query` WHERE `query_type`='ખાતર ઉપયોગ અને ઉપલબ્ધિ' AND (`query_text` LIKE '%/Gernal%' OR `query_text` LIKE '%ખાતર%' OR `query_text` LIKE '%PGR%') AND `response` NOT LIKE '%કિસાન કોલ સેન્ટર%' LIMIT 1".format(plant_name)
+    sql = "SELECT `response` FROM `query` WHERE `query_type`='ખાતર ઉપયોગ અને ઉપલબ્ધિ' AND `crop` LIKE '%{}%' AND (`query_text` LIKE '%/Gernal%' OR `query_text` LIKE '%ખાતર%' OR `query_text` LIKE '%PGR%') AND `response` NOT LIKE '%કિસાન કોલ સેન્ટર%' LIMIT 1".format(plant_name)
     mycursor.execute(sql)
     result = None
     for data in mycursor:
