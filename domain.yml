@@ -9,17 +9,38 @@ intents:
 - mood_great
 - mood_unhappy
 - bot_challenge
-- plant_protect
+- plant_protect:
+    use_entities:
+      - plant_name
+      - plant_problem
+    ignore_entities:
+      - plant_common_name
 - plant_price
 - plant_fertilizer
+- state_plant_issue:
+    use_entities:
+      - plant_common_name
+      - plant_problem
+- state_plant_name
 - out_of_scope
 - nlu_fallback
 entities:
-- hotel
-- state
 - plant_area
 - plant_name
 - plant_problem
+- plant_common_name
+slots:
+  plant_problem:
+    type: text
+    auto_fill: false
+    influence_conversation: false
+  plant_name:
+    type: text
+    auto_fill: false
+    influence_conversation: false
+  requested_slot:
+    type: unfeaturized
+    influence_conversation: false
 responses:
   utter_greet:
   - text: અરે! તમે કેમ છો?
@@ -38,8 +59,26 @@ responses:
   - text: માફ કરશો મને તે મળ્યું નથી. તમે ફરીથી કહી શકો છો?
   utter_out_of_scope:
   - text: માફ કરશો, હું તે વિનંતીને સંભાળી શકતો નથી.
+  utter_ask_plant_name:
+  - text: કૃપયા કરી પાક નામ જણાવો
+  utter_ask_plant_problem:
+  - text: કૃપયા કરી સમસ્યા જણાવો
+  utter_slot_values:
+  - text: 'અનાજનું નામ: {plant_name}, સમસ્યાનું નામ: {plant_problem}'
 actions:
 - action_plant_protection_solution
 - action_please_rephrase
 - action_plant_price
 - action_plant_fertilizer
+- action_submit
+- action_slots_reset
+forms:
+  farmer_form:
+    plant_name:
+    - entity: plant_name
+      intent: state_plant_name
+      type: from_entity
+    plant_problem:
+    - entity: plant_problem
+      intent: state_plant_issue
+      type: from_entity

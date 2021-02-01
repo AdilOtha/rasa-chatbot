@@ -7,3 +7,39 @@ SELECT * FROM `query` WHERE `query_type`='ખાતર ઉપયોગ અને
 બધી માહિતી પૂરી પાડવામાં - કિસાન કોલ સેન્ટર માં કૉલ માટે આભાર
 
 https://botfront.io/blog/better-intent-classification-and-entity-extraction-with-diet-classifier-pipeline-optimization
+
+- story: farmer form path 1
+    steps:
+      - intent: state_plant_issue
+        entities:
+        - plant_problem
+        - plant_common_name
+      - action: action_set_plant_problem
+      - slot_was_set:
+        - form_plant_problem
+      - action: utter_ask_plant_name
+      - intent: state_plant_name
+        entities:
+          - plant_name
+      - action: action_set_plant_name
+      - slot_was_set:
+        - form_plant_name
+      - action: utter_slot_values
+
+  - story: farmer form path 2
+    steps:
+      - intent: state_plant_name
+        entities:
+          - plant_name
+      - action: action_set_plant_name
+      - slot_was_set:
+        - form_plant_name
+      - action: utter_ask_plant_problem
+      - intent: state_plant_issue
+        entities:
+        - plant_problem
+        - plant_common_name
+      - action: action_set_plant_problem
+      - slot_was_set:
+        - form_plant_problem
+      - action: utter_slot_values

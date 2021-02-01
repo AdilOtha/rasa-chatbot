@@ -30,10 +30,12 @@ from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-import rasa_sdk.events
+from rasa_sdk.events import SlotSet, EventType, AllSlotsReset
 from .database import DataFetch, DataInsert, GetPrice, GetFertilizer
+from rasa_sdk.types import DomainDict
 
 import requests
+
 
 class ActionPlantProtect(Action):
 
@@ -43,66 +45,80 @@ class ActionPlantProtect(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        entities = tracker.latest_message['entities']
-        print(entities)       
+        print(tracker.latest_message)
+        entities = tracker.latest_message['entities']        
 
+        url = 'https://chatapp-node13.herokuapp.com/api/'
         plant_name = ''
         plant_problem = ''
         plant_area = ''
         print(entities)
         for e in entities:
-            if e['entity']=='plant_name':
+            if e['entity'] == 'plant_name':
                 plant_name = e['value']
-            if e['entity']=='plant_problem':
+            if e['entity'] == 'plant_problem':
                 plant_problem = e['value']
-            if e['entity']=='plant_area':
-                plant_area=e['value']
-
+            if e['entity'] == 'plant_area':
+                plant_area = e['value']
 
         message = ''
         if plant_name == '' and plant_problem == '':
             message += "કૃપયા કરી પાક અને સમસ્યા નું નામ જણાવજો"
         elif plant_name == '':
-                message += "કૃપયા કરી પાક નું નામ જણાવો"
+            message += "કૃપયા કરી પાક નું નામ જણાવો"
         elif plant_problem == '':
-                message += "કૃપયા કરી તમારી સમસ્યા જણાવો"
+            message += "કૃપયા કરી તમારી સમસ્યા જણાવો"
 
-
-        if (plant_name != '' and plant_problem != '') or plant_area!='':
+        if (plant_name != '' and plant_problem != '') or plant_area != '':
             if plant_area != '':
-                message = 'અનાજના નામ:' + plant_name + ', સમસ્યાનું નામ:' + plant_problem + ' ભાગ: ' + plant_area + '\n'
+                message = 'અનાજના નામ:' + plant_name + ', સમસ્યાનું નામ:' + \
+                    plant_problem + ' ભાગ: ' + plant_area + '\n'
             else:
                 message = 'અનાજના નામ:' + plant_name + ', સમસ્યાનું નામ:' + plant_problem + '\n'
-            result = DataFetch(plant_name, plant_area, plant_problem)
-            if result != None:
-                message += result[0]                
+            body = {
+                'plant_problem': plant_problem,
+                'plant_area': plant_area,
+                'plant_name': plant_name
+            }            
+            result = requests.post(url+'kisanQuery/dataFetch',data = body)            
+            response  = result.json()            
+            if len(response['data']) != 0:
+                print(response['data'][0])
+                message += response['data'][0]['response']
             else:
                 query = tracker.latest_message['text']
-                DataInsert(query)
+                print(query)
+                body = {
+                'query': query
+                }
+                result = requests.post(url+'fallback/addFallback',data = body)
+                print(result.status_code)
+                #DataInsert(query)
                 message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"
-            
 
         dispatcher.utter_message(text=message)
 
         return []
 
-class ActionPleaseRephrase(Action):    
-        def name(self) -> Text:
-            return "action_please_rephrase"
-    
-        def run(self, dispatcher: CollectingDispatcher,
-                tracker: Tracker,
-                domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-            query = tracker.latest_message['text']
-            print(query)
+class ActionPleaseRephrase(Action):
+    def name(self) -> Text:
+        return "action_please_rephrase"
 
-            DataInsert(query)
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print(tracker.latest_message)
+        query = tracker.latest_message['text']
+        print(query)
 
-            message = "માફ કરશો, હું તે વિનંતીને સંભાળી શકતો નથી."
-            dispatcher.utter_message(text=message)
-    
-            return []
+        DataInsert(query)
+
+        message = "માફ કરશો, હું તે વિનંતીને સંભાળી શકતો નથી."
+        dispatcher.utter_message(text=message)
+
+        return []
+
 
 class ActionPlantPrice(Action):
 
@@ -112,19 +128,19 @@ class ActionPlantPrice(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        entities = tracker.latest_message['entities']
-        print(entities)       
+        print(tracker.latest_message)
+        entities = tracker.latest_message['entities']        
 
-        plant_name = ''        
+        plant_name = ''
         print(entities)
         for e in entities:
-            if e['entity']=='plant_name':
+            if e['entity'] == 'plant_name':
                 plant_name = e['value']
 
         message = ''
-        if plant_name == '':                    
+        if plant_name == '':
             message += "કૃપયા કરી પાક નું નામ જણાવો"
-        else:            
+        else:
             message = 'અનાજના નામ:' + plant_name + '\n'
             result = GetPrice(plant_name)
             if result != None:
@@ -133,11 +149,10 @@ class ActionPlantPrice(Action):
                 query = tracker.latest_message['text']
                 DataInsert(query)
                 message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"
-            
 
         dispatcher.utter_message(text=message)
 
-        return []            
+        return []
 
 
 class ActionPlantFertilizer(Action):
@@ -148,17 +163,17 @@ class ActionPlantFertilizer(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print(tracker.latest_message)
         entities = tracker.latest_message['entities']
-        print(entities)       
 
-        plant_name = ''        
+        plant_name = ''
         print(entities)
         for e in entities:
-            if e['entity']=='plant_name':
+            if e['entity'] == 'plant_name':
                 plant_name = e['value']
 
         message = ''
-        if plant_name == '':                    
+        if plant_name == '':
             message += "કૃપયા કરી પાક નું નામ જણાવો"
         else:
             message = 'અનાજના નામ:' + plant_name + '\n'
@@ -169,8 +184,59 @@ class ActionPlantFertilizer(Action):
                 query = tracker.latest_message['text']
                 DataInsert(query)
                 message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"
-            
 
         dispatcher.utter_message(text=message)
 
         return []
+
+class ActionSubmit(Action):
+
+    def name(self) -> Text:
+        return "action_submit"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:        
+        plant_name = ''
+        plant_problem = ''
+        plant_area = ''
+        message = ''
+        plant_name = tracker.get_slot("plant_name")
+        plant_problem = tracker.get_slot("plant_problem")
+
+        print(plant_name)
+        print(plant_problem)
+
+        if type(plant_name) is list:
+            plant_name = plant_name[0]
+            print(plant_name)
+        if type(plant_problem) is list:
+            plant_problem = plant_problem[0]
+            print(plant_problem)
+
+        if plant_name == '' or plant_problem == '':
+            message += "માફ કરશો મને તે મળ્યું નથી. તમે ફરીથી કહી શકો છો?"
+        else:
+            message = 'અનાજના નામ:' + plant_name + '\n' + ', સમસ્યાનું નામ:'+ plant_problem + " \n"
+            result = DataFetch(plant_name, plant_area, plant_problem)
+            if result != None:
+                message += result[0]
+            else:
+                query = tracker.latest_message['text']
+                DataInsert(query)
+                message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"
+
+        dispatcher.utter_message(text=message)
+
+        return []
+
+class ActionSlotsReset(Action):
+
+    def name(self) -> Text:
+        return "action_slots_reset"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:        
+
+        return [AllSlotsReset()]

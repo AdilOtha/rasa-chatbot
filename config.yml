@@ -46,8 +46,10 @@ pipeline:
     use_lookup_tables: True
     # use regexes to extract entities
     use_regexes: True
+    # use match word boundaries for lookup table
+    "use_word_boundaries": False
   - name: FallbackClassifier
-    threshold: 0.7
+    threshold: 0.45
 policies:
 # # No configuration for policies was provided. The following default policies were used to train your model.
 # # If you'd like to customize them, uncomment and adjust the policies.

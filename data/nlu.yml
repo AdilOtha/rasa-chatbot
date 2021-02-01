@@ -63,35 +63,44 @@ nlu:
     - શું હું બોટ સાથે વાત કરું છું?
     - શું હું મનુષ્ય સાથે વાત કરું છું?
 - intent: plant_protect
-  examples: |
-    - [પાક](plant_area) માં [જંતુઓ](plant_problem) સમસ્યા
-    - [પાક](plant_area) માં [ફૂગ](plant_problem) સમસ્યા
-    - [ફળ](plant_area) [તોડ](plant_problem) સમસ્યા
-    - [રુટ](plant_area) માં [ફૂગ](plant_problem) સમસ્યા
-    - [પાક](plant_area) માં [ડિમ્ભક](plant_problem) સમસ્યા
+  examples: |    
     - [તમાકુ](plant_name) માં [લાર્વા](plant_problem) નિયંત્રણ માહિતી
-    - [સફેદ ફ્લાય](plant_problem) નિયંત્રણ માહિતી
-    - મને [સફેદ ફ્લાય](plant_problem) નિયંત્રણ માહિતી આપો
-    - [જીરું](plant_name) માં [ફૂગ](plant_problem) સમસ્યા
+    - [તમાકુ](plant_name) ના પાક માં [લાર્વા](plant_problem) નિયંત્રણ માહિતી
+    - [ટામેટા](plant_name) માં [નીંદણ](plant_problem) નિયંત્રણ માહિતી આપો
+    - [ટામેટામાં](plant_name) ના પાક માં [નીંદણ](plant_problem) નિયંત્રણ માહિતી આપો
+    - મને [રાઈ](plant_name) માં [સફેદ ફ્લાય](plant_problem) નિયંત્રણ માહિતી આપો
+    - મને [રાઈ](plant_name) ના પાક માં [સફેદ ફ્લાય](plant_problem) નિયંત્રણ માહિતી
+    - [જીરું](plant_name) માં [ફૂગ](plant_problem) સમસ્યા છે
+    - [જીરુંના](plant_name) પાક માં [ફૂગ](plant_problem) સમસ્યા
+    - [ઘઉં](plant_name) ના [રુટ](plant_area) માં [ફૂગ](plant_problem) સમસ્યા
+    - [ડુંગળી](plant_name) માં [વૃદ્ધિ](plant_problem) ની સમસ્યા છે
+    - મારે [જીરું](plant_name) ના પાક ના [રુટ](plant_area) માં [ફૂગની](plant_problem) સમસ્યા છે
     - [કપાસ](plant_name) માં [ફૂગ](plant_problem) સમસ્યા
     - [ચારા જુવાર](plant_name) માં [ફૂગ](plant_problem) સમસ્યા
-    - [લીલા ચણા](plant_name) માં [ફૂગ](plant_problem) સમસ્યા
+    - [લીલા ચણા](plant_name) માં [જંતુઓ](plant_problem) ની સમસ્યા
     - [મગની ફળી](plant_name) માં [ફૂગ](plant_problem) સમસ્યા
-    - મારે [કપાસ](plant_name) માં [ફૂગ](plant_problem) સમસ્યા છે
-    - [મેથી](plant_name) માં [ફૂગ](plant_problem) નો શું ઈલાજ છે?
+    - મારે [કપાસ](plant_name) માં [ડિમ્ભક](plant_problem) ની સમસ્યા છે
+    - મારે [કપાસના](plant_name) અનાજ માં [ડિમ્ભકની](plant_problem) સમસ્યા છે
+    - [મેથી](plant_name) માં [ઊધઇ](plant_problem) નો શું ઈલાજ છે?
+    - [મેથીના](plant_name) પાક માં [ઊધઇ](plant_problem) નો શું ઈલાજ છે?
     - [પોટેટો](plant_name) માં [ફૂગ](plant_problem) થાય તો શું કરવું?
-    - [સફેદ ફ્લાય](plant_problem) ના માટે શું કરવું?
+    - [પોટેટોના](plant_name) પાક માં [કીડી](plant_problem) થાય તો શું કરવું?
+    - મને [લીંબુ](plant_name) ના અનાજ માં [સફેદ ફ્લાય](plant_problem) નિયંત્રણ માહિતી
+    - [રીંગણ](plant_name) માં [નેમાટોડે](plant_problem) થાય તો શું કરવું?
+    - મારે [રીંગણના](plant_name) પાક ના [રુટ](plant_area) માં [નાનું છોકરુંની](plant_problem) સમસ્યા છે
 - intent: plant_price
   examples: |
     - મને [લીંબુ](plant_name) ની બજાર માહિતી જોઈએ છે
+    - મને [લીંબુના](plant_name) પાક ની બજાર માહિતી જોઈએ છે
     - મને [લીલા ચણા](plant_name) ની બજાર માહિતી વિશે જણાવશો?
-    - [શકરટેટી](plant_name) નો ભાવ શું છે?
+    - [શકરટેટીના](plant_name) અનાજ નો ભાવ શું છે?
     - માર્કેટમાં [મકાઈ](plant_name) નો ભાવ શું ચાલે છે?
-    - મને [જીરું](plant_name) ના ભાવ વિશે જાણકારી જોઈએ છે
+    - મને [જીરુંના](plant_name) પાક ના ભાવ વિશે જાણકારી જોઈએ છે
     - [જુવાર](plant_name) નો ભાવ બતાવો
     - આજકાલ [ઘઉં](plant_name) નો ભાવ શું ચાલે છે?
     - મંડીમાં [અખરોટ](plant_name) નો ભાવ શું છે?
     - [અખરોટ](plant_name) ની કિંમત બતાવો
+    - [અખરોટના](plant_name) અનાજ ની કિંમત બતાવો
     - બજારમાં [રાઈ](plant_name) ની કિંમત શું છે?
     - બજારમાં [અખરોટ](plant_name) નો ભાવ શું ચાલે છે?
 - intent: out_of_scope
@@ -106,18 +115,67 @@ nlu:
 - intent: plant_fertilizer
   examples: |
     - [કેરીની](plant_name) ખાતર માહિતી આપો
+    - [કેરીના](plant_name) પાક માં ખાતર માહિતી આપો
     - મને [કેરીની](plant_name) ખાતર માહિતી જણાવશો?
+    - [તુલસીના](plant_name) પાક માં કયુ ખાતર નખાય?
     - [તુલસી](plant_name) માં કયુ ખાતર નખાય?
     - મને ખાતરની માહિતી જોઈએ છે [ઘઉં](plant_name) માટે
-    - [ભીંડા](plant_name) ના પાક માં કયુ ખાતર નખાય?
+    - મને ખાતરની માહિતી જોઈએ છે [ઘઉંના](plant_name) પાક માટે
+    - [ભીંડા](plant_name) ના અનાજ માં કયુ ખાતર નખાય?
     - મને [વરીયાળી](plant_name) ના પાક માં ખાતર માહિતી જોઈએ છે
     - [સરસોંના](plant_name) ખાતર વિશે સલાહ આપો
     - મને ખાતર વિશે સલાહ જોઈએ છે [વરિયાળી](plant_name) માટે
-    - [નારંગી](plant_name) ના પાક માં કયું ખાતર નાખવું જોઈએ?
+    - [નારંગી](plant_name) ના અનાજ માં કયું ખાતર નાખવું જોઈએ?
     - [પપૈયા](plant_name) ના વિકાસ માટે શું કરાય?
     - [દૂધી](plant_name) ના ફેલાવો માટે શું કરાય?
     - [ચીકુ](plant_name) નો ફેલાવો વધારવા શું કરાય?
+    - [ચીકુના](plant_name) પાક નો ફેલાવો વધારવા શું કરાય?
     - મારે [ચોળા](plant_name) પાકનો વિકાસ વધારવું છે
+- intent: state_plant_issue
+  examples: |
+    - [પાક](plant_common_name) માં [જંતુઓ](plant_problem) સમસ્યા
+    - [પાક](plant_common_name) માં [ફૂગ](plant_problem) સમસ્યા
+    - [ફળ તોડ](plant_problem) ની સમસ્યા છે
+    - [રુટ](plant_area) માં [ફૂગ](plant_problem) સમસ્યા
+    - [અનાજના](plant_common_name) [રૂટમાં](plant_area) રોગની સમસ્યા છે
+    - [પાક](plant_common_name) માં [ડિમ્ભક](plant_problem) સમસ્યા
+    - [અનાજ](plant_common_name) માં [જંતુઓ](plant_problem) સમસ્યા
+    - [અનાજમાં](plant_common_name) [જંતુઓ](plant_problem) ની સમસ્યા છે
+    - મારે [જંતુઓ](plant_problem) ની સમસ્યા છે
+    - મારે [ફૂગનો](plant_problem) પ્રશ્ન છે
+    - મારે [ડિમ્ભક](plant_problem) નો ઉકેલ જોઈએ છે
+    - મારે [ફુગ](plant_problem) ની સમસ્યા છે
+    - મારે [જંતુ](plant_problem) ની સમસ્યા છે
+    - [પાક](plant_common_name) માં [નીંદણ](plant_problem) નિયંત્રણ માટે શું કરવું જોઈએ
+    - [અનાજ](plant_common_name) માં [લાર્વા](plant_problem) નિયંત્રણ માટે શું કરવું જોઈએ
+    - [કીડી](plant_problem) નિયંત્રણ માહિતી આપો
+    - [કીડીની](plant_problem) નિયંત્રણ માહિતી આપો
+    - [ઊધઇ](plant_problem) નિયંત્રણ માહિતી જોઈએ છે
+    - [સફેદ GRUB](plant_problem) નિયંત્રણ માહિતી આપો
+    - [નેમાટોડે](plant_problem) નિયંત્રણ માહિતી આપો
+    - [નાનું છોકરું](plant_problem) નિયંત્રણ માહિતી
+    - [પાક](plant_common_name) માં [ફૂલો](plant_problem) ની સમસ્યા
+    - [પાક](plant_common_name) [વૃદ્ધિ](plant_problem) સમસ્યા
+    - [સફેદ ફ્લાય](plant_problem) ના માટે શું કરવું?
+- intent: state_plant_name
+  examples: |
+    - મારે [લીલા ચણાના](plant_name) પાકમાં સમસ્યા છે
+    - મારા પાકનું નામ [ઘઉં](plant_name) છે
+    - [જીરું](plant_name)
+    - [લીંબુ](plant_name)
+    - [ભીંડા](plant_name)
+    - [નારંગી](plant_name)
+    - [જવ](plant_name)
+    - [કેસરના](plant_name) પાકમાં સમસ્યા છે
+    - [મગની ફળી](plant_name)
+    - [મેથી](plant_name)
+    - અનાજ નું નામ [ડુંગળી](plant_name) છે
+    - મારે [તુલસીના](plant_name) અનાજમાં સમસ્યા છે
+    - [ટામેટા](plant_name)
+    - [કપાસ](plant_name)
+    - [લીંબુ](plant_name)
+    - [ડુંગળી](plant_name)
+    - [ઘઉં](plant_name)
 - lookup: plant_name
   examples: |
     - અન્ય
