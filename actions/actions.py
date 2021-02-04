@@ -431,7 +431,7 @@ class ActionAskPlantProblem(Action):
             plant_area = plant_area[0]
             print(plant_area)
         if plant_area == 'રુટ':
-            data = [{'label': 'ફૂગ', 'value': "/farmer_form{'plant_problem': 'ફૂગ'}"}]
+            data = ['ફૂગ']
         else:
             data = getNames('plant_problems')
         message={"payload":"dropDown","data":data}
