@@ -26,7 +26,7 @@ stories:
       - action: utter_cheer_up
       - action: utter_did_that_help
       - intent: deny
-      - action: utter_goodbye  
+      - action: utter_goodbye
 
   - story: plant protection query
     steps:
@@ -50,7 +50,7 @@ stories:
         - plant_name
       - action: action_plant_fertilizer
 
-  - story: activate restaurant form
+  - story: activate farmer form
     steps:
       - or:
         - intent: state_plant_issue   # intent that triggers form activation
@@ -60,5 +60,23 @@ stories:
         - intent: state_plant_name
           entities:
           - plant_name
+        - intent: start_farmer_form
       - action: farmer_form           # run the form
       - active_loop: farmer_form      # this form is active
+
+  - story: activate fertilizer form
+    steps:
+      - intent: start_fertilizer_form
+      - action: fertilizer_form           # run the form
+      - active_loop: fertilizer_form      # this form is active
+
+  - story: activate market form
+    steps:
+      - intent: start_market_form
+      - action: market_form           # run the form
+      - active_loop: market_form      # this form is active
+
+  - story: activate menu
+    steps:
+      - intent: activate_menu
+      - action: utter_menu

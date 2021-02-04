@@ -31,8 +31,9 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, EventType, AllSlotsReset
-from .database import DataFetch, DataInsert, GetPrice, GetFertilizer
 from rasa_sdk.types import DomainDict
+
+from .globals import getNames
 
 import requests
 
@@ -108,11 +109,16 @@ class ActionPleaseRephrase(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        url = 'https://chatapp-node13.herokuapp.com/api/'
         print(tracker.latest_message)
         query = tracker.latest_message['text']
         print(query)
-
-        DataInsert(query)
+        body = {
+            'query': query
+        }
+        result = requests.post(url+'fallback/addFallback',data = body)
+        print(result.status_code)
+        # DataInsert(query)
 
         message = "માફ કરશો, હું તે વિનંતીને સંભાળી શકતો નથી."
         dispatcher.utter_message(text=message)
@@ -129,6 +135,7 @@ class ActionPlantPrice(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         print(tracker.latest_message)
+        url = 'https://chatapp-node13.herokuapp.com/api/'
         entities = tracker.latest_message['entities']        
 
         plant_name = ''
@@ -142,12 +149,23 @@ class ActionPlantPrice(Action):
             message += "કૃપયા કરી પાક નું નામ જણાવો"
         else:
             message = 'અનાજના નામ:' + plant_name + '\n'
-            result = GetPrice(plant_name)
-            if result != None:
-                message += result[0]
+            body = {                
+                'plant_name': plant_name
+            }
+            result = requests.post(url+'kisanQuery/getPrice',data = body)
+            response  = result.json()
+            if len(response['data']) != 0:
+                print(response['data'][0])
+                message += response['data'][0]['response']
             else:
                 query = tracker.latest_message['text']
-                DataInsert(query)
+                print(query)
+                body = {
+                'query': query
+                }
+                result = requests.post(url+'fallback/addFallback',data = body)
+                print(result.status_code)
+                #DataInsert(query)
                 message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"
 
         dispatcher.utter_message(text=message)
@@ -163,6 +181,7 @@ class ActionPlantFertilizer(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        url = 'https://chatapp-node13.herokuapp.com/api/'
         print(tracker.latest_message)
         entities = tracker.latest_message['entities']
 
@@ -177,12 +196,23 @@ class ActionPlantFertilizer(Action):
             message += "કૃપયા કરી પાક નું નામ જણાવો"
         else:
             message = 'અનાજના નામ:' + plant_name + '\n'
-            result = GetFertilizer(plant_name)
-            if result != None:
-                message += result[0]
+            body = {                
+                'plant_name': plant_name
+            }
+            result = requests.post(url+'kisanQuery/getFertilizer',data = body)
+            response  = result.json()
+            if len(response['data']) != 0:
+                print(response['data'][0])
+                message += response['data'][0]['response']
             else:
                 query = tracker.latest_message['text']
-                DataInsert(query)
+                print(query)
+                body = {
+                'query': query
+                }
+                result = requests.post(url+'fallback/addFallback',data = body)
+                print(result.status_code)
+                #DataInsert(query)
                 message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"
 
         dispatcher.utter_message(text=message)
@@ -196,13 +226,14 @@ class ActionSubmit(Action):
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:        
-        plant_name = ''
-        plant_problem = ''
-        plant_area = ''
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print(tracker.latest_message)
+        print(tracker.slots)
+        url = 'https://chatapp-node13.herokuapp.com/api/'        
         message = ''
         plant_name = tracker.get_slot("plant_name")
         plant_problem = tracker.get_slot("plant_problem")
+        plant_area = tracker.get_slot("plant_area")        
 
         print(plant_name)
         print(plant_problem)
@@ -213,22 +244,150 @@ class ActionSubmit(Action):
         if type(plant_problem) is list:
             plant_problem = plant_problem[0]
             print(plant_problem)
+        if type(plant_area) is list:
+            plant_area = plant_area[0]
+            print(plant_area)
 
-        if plant_name == '' or plant_problem == '':
-            message += "માફ કરશો મને તે મળ્યું નથી. તમે ફરીથી કહી શકો છો?"
-        else:
-            message = 'અનાજના નામ:' + plant_name + '\n' + ', સમસ્યાનું નામ:'+ plant_problem + " \n"
-            result = DataFetch(plant_name, plant_area, plant_problem)
-            if result != None:
-                message += result[0]
+        if plant_area == 'સામાન્ય':
+            plant_area = ''
+
+        message = ''
+        if plant_name == None and plant_problem == None:
+            message += "કૃપયા કરી પાક અને સમસ્યા નું નામ જણાવજો"
+        elif plant_name == None:
+            message += "કૃપયા કરી પાક નું નામ જણાવો"
+        elif plant_problem == None:
+            message += "કૃપયા કરી તમારી સમસ્યા જણાવો"
+        elif plant_name != None and plant_problem!=None:
+            message = 'અનાજના નામ:' + plant_name + ', \n' + 'સમસ્યાનું નામ:'+ plant_problem + " \n"
+            if plant_area != '':
+                message += ' ભાગ: ' + plant_area + " \n"
+            body = {
+                'plant_problem': plant_problem,
+                'plant_area': plant_area,
+                'plant_name': plant_name
+            }
+            result = requests.post(url+'kisanQuery/dataFetch',data = body)
+            response  = result.json()
+            print(response['data'])
+            if len(response['data']) != 0:
+                print(response['data'][0])
+                message += response['data'][0]['response']
             else:
                 query = tracker.latest_message['text']
-                DataInsert(query)
-                message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"
+                print(query)
+                body = {
+                'query': query
+                }
+                result = requests.post(url+'fallback/addFallback',data = body)
+                print(result.status_code)
+                #DataInsert(query)
+                message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"            
+
 
         dispatcher.utter_message(text=message)
 
         return []
+
+class ActionFertilizerSubmit(Action):
+
+    def name(self) -> Text:
+        return "action_fertilizer_submit"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print(tracker.latest_message)
+        print(tracker.slots)
+        url = 'https://chatapp-node13.herokuapp.com/api/'        
+        message = ''
+        plant_name = tracker.get_slot("plant_name")             
+
+        print(plant_name)    
+
+        if type(plant_name) is list:
+            plant_name = plant_name[0]
+            print(plant_name)        
+
+        message = ''
+        if plant_name == None:
+            message += "કૃપયા કરી પાક નું નામ જણાવજો"        
+        else:
+            message = 'અનાજના નામ:' + plant_name + " \n"
+            body = {                
+                'plant_name': plant_name
+            }
+            result = requests.post(url+'kisanQuery/getFertilizer',data = body)
+            response  = result.json()
+            print(response['data'])
+            if len(response['data']) != 0:
+                print(response['data'][0])
+                message += response['data'][0]['response']
+            else:
+                query = tracker.latest_message['text']
+                print(query)
+                body = {
+                'query': query
+                }
+                result = requests.post(url+'fallback/addFallback',data = body)
+                print(result.status_code)
+                #DataInsert(query)
+                message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"            
+
+
+        dispatcher.utter_message(text=message)
+
+        return []        
+
+class ActionMarketSubmit(Action):
+
+    def name(self) -> Text:
+        return "action_market_submit"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print(tracker.latest_message)
+        print(tracker.slots)
+        url = 'https://chatapp-node13.herokuapp.com/api/'        
+        message = ''
+        plant_name = tracker.get_slot("plant_name")             
+
+        print(plant_name)    
+
+        if type(plant_name) is list:
+            plant_name = plant_name[0]
+            print(plant_name)        
+
+        message = ''
+        if plant_name == None:
+            message += "કૃપયા કરી પાક નું નામ જણાવજો"        
+        else:
+            message = 'અનાજના નામ:' + plant_name + " \n"
+            body = {                
+                'plant_name': plant_name
+            }
+            result = requests.post(url+'kisanQuery/getPrice',data = body)
+            response  = result.json()
+            print(response['data'])
+            if len(response['data']) != 0:
+                print(response['data'][0])
+                message += response['data'][0]['response']
+            else:
+                query = tracker.latest_message['text']
+                print(query)
+                body = {
+                'query': query
+                }
+                result = requests.post(url+'fallback/addFallback',data = body)
+                print(result.status_code)
+                #DataInsert(query)
+                message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"            
+
+
+        dispatcher.utter_message(text=message)
+
+        return []        
 
 class ActionSlotsReset(Action):
 
@@ -240,3 +399,59 @@ class ActionSlotsReset(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:        
 
         return [AllSlotsReset()]
+
+class ActionAskPlantName(Action):
+
+    def name(self) -> Text:
+        return "action_ask_plant_name"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print(tracker.latest_message)
+        print(tracker.slots)
+        data = getNames('plant_names')
+        message={"payload":"dropDown","data":data}
+        dispatcher.utter_message(text="કૃપયા કરી પાક નામ જણાવો", json_message = message)
+
+        return []
+
+class ActionAskPlantProblem(Action):
+
+    def name(self) -> Text:
+        return "action_ask_plant_problem"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print(tracker.latest_message)
+        print(tracker.slots)        
+        plant_area = tracker.get_slot('plant_area')
+        if type(plant_area) is list:
+            plant_area = plant_area[0]
+            print(plant_area)
+        if plant_area == 'રુટ':
+            data = [{'label': 'ફૂગ', 'value': "/farmer_form{'plant_problem': 'ફૂગ'}"}]
+        else:
+            data = getNames('plant_problems')
+        message={"payload":"dropDown","data":data}
+        dispatcher.utter_message(text="કૃપયા કરી પાક સમસ્યા જણાવો", json_message = message)
+
+        return []
+
+class ActionAskPlantArea(Action):
+
+    def name(self) -> Text:
+        return "action_ask_plant_area"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print(tracker.latest_message)
+        print(tracker.slots)
+        data = [{'label': 'રુટ', 'value': "/farmer_form{'plant_area': 'રુટ'}"},
+        {'label': 'સામાન્ય', 'value': "/farmer_form{'plant_area': 'સામાન્ય'}"}]
+        message={"payload":"dropDown","data":data}
+        dispatcher.utter_message(text="કૃપયા કરી પાક ભાગ જણાવો", json_message = message)
+
+        return []        

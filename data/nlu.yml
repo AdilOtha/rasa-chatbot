@@ -176,6 +176,12 @@ nlu:
     - [લીંબુ](plant_name)
     - [ડુંગળી](plant_name)
     - [ઘઉં](plant_name)
+- intent: state_plant_area
+  examples: |
+    - [રુટ](plant_area)
+    - [રુટ](plant_area) અંદર
+    - [સામાન્ય](plant_area)
+    - [સામાન્ય](plant_area) માહિતી
 - lookup: plant_name
   examples: |
     - અન્ય
@@ -223,3 +229,21 @@ nlu:
     - ગ્યુંઅવા
     - લવિંગ
     - સીતાફળ
+
+- lookup: plant_problem
+  examples: |
+    - સામાન્ય માહિતી
+    - નીંદણ
+    - ફૂગ
+    - જંતુ
+    - ફળ તોડ
+    - ડિમ્ભક
+    - સફેદ ફ્લાય
+    - લાર્વા
+    - જીવાત
+    - કીડી
+    - નાનું છોકરું
+    - ઊધઇ
+    - નેમાટોડે
+    - વૃદ્ધિ
+    - ફૂલો

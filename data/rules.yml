@@ -29,3 +29,21 @@ rules:
       - active_loop: null      
       - action: action_submit
       - action: action_slots_reset
+
+  - rule: fertilizer form path submit    
+    condition:
+      - active_loop: fertilizer_form
+    steps:
+      - action: fertilizer_form
+      - active_loop: null      
+      - action: action_fertilizer_submit
+      - action: action_slots_reset
+
+  - rule: market form path submit    
+    condition:
+      - active_loop: market_form
+    steps:
+      - action: market_form
+      - active_loop: null      
+      - action: action_market_submit
+      - action: action_slots_reset
