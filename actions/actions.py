@@ -448,9 +448,8 @@ class ActionAskPlantArea(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         print(tracker.latest_message)
-        print(tracker.slots)
-        data = [{'label': 'રુટ', 'value': "/farmer_form{'plant_area': 'રુટ'}"},
-        {'label': 'સામાન્ય', 'value': "/farmer_form{'plant_area': 'સામાન્ય'}"}]
+        print(tracker.slots)            
+        data = ['રુટ', 'સામાન્ય']
         message={"payload":"dropDown","data":data}
         dispatcher.utter_message(text="કૃપયા કરી પાક ભાગ જણાવો", json_message = message)
 
