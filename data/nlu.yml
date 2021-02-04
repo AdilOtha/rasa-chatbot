@@ -176,6 +176,8 @@ nlu:
     - [લીંબુ](plant_name)
     - [ડુંગળી](plant_name)
     - [ઘઉં](plant_name)
+    - [બોવાઇન](plant_name)
+    - [સુવાદાણા બીજ](plant_name)
 - intent: state_plant_area
   examples: |
     - [રુટ](plant_area)
