@@ -19,7 +19,7 @@ def getNames(input):
             data.append(x.replace('- ', ''))
         # print(data)
         for x in data:
-            btnData.append({"label": x, "value": "/farmer_form{'plant_name':'" + x + "'}"})
+            btnData.append(x)
         # print(btnData)
     elif input == 'plant_problems':
         plant_probems = doc['nlu'][length-1]['examples']    
@@ -31,7 +31,7 @@ def getNames(input):
             data.append(x.replace('- ', ''))
         # print(data)    
         for x in data:
-            btnData.append({"label": x, "value": "/farmer_form{'plant_problem':'" + x + "'}"})
+            btnData.append(x)
         # print(btnData)
         
     return btnData
