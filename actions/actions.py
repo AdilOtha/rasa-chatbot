@@ -274,7 +274,7 @@ class ActionSubmit(Action):
                 print(response['data'][0])
                 message += response['data'][0]['response']
             else:
-                query = tracker.latest_message['text']
+                query = plant_name + "/ " + plant_problem + "/ " + plant_area
                 print(query)
                 body = {
                 'query': query
@@ -327,7 +327,7 @@ class ActionFertilizerSubmit(Action):
                 query = tracker.latest_message['text']
                 print(query)
                 body = {
-                'query': query
+                'query': query + "/ ખાતર માહિતી"
                 }
                 result = requests.post(url+'fallback/addFallback',data = body)
                 print(result.status_code)
@@ -377,7 +377,7 @@ class ActionMarketSubmit(Action):
                 query = tracker.latest_message['text']
                 print(query)
                 body = {
-                'query': query
+                'query': query + "/ બજાર માહિતી"
                 }
                 result = requests.post(url+'fallback/addFallback',data = body)
                 print(result.status_code)
@@ -410,7 +410,16 @@ class ActionAskPlantName(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         print(tracker.latest_message)
         print(tracker.slots)
-        data = getNames('plant_names')
+
+        plant_category = tracker.get_slot("plant_category")             
+
+        print(plant_category)    
+
+        if type(plant_category) is list:
+            plant_category = plant_category[0]
+            print(plant_category)        
+
+        data = getNames('plant_names', plant_category)
         message={"payload":"dropDown","data":data}
         dispatcher.utter_message(text="કૃપયા કરી પાક નામ જણાવો", json_message = message)
 
@@ -452,5 +461,21 @@ class ActionAskPlantArea(Action):
         data = ['રુટ', 'સામાન્ય']
         message={"payload":"dropDown","data":data}
         dispatcher.utter_message(text="કૃપયા કરી પાક ભાગ જણાવો", json_message = message)
+
+        return []
+
+class ActionAskPlantCategory(Action):
+
+    def name(self) -> Text:
+        return "action_ask_plant_category"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print(tracker.latest_message)
+        print(tracker.slots)
+        data = getNames('plant_categories')
+        message={"payload":"dropDown","data":data}
+        dispatcher.utter_message(text="કૃપયા કરી પાક વર્ગ જણાવો", json_message = message)
 
         return []        

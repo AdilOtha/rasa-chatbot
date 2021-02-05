@@ -106,12 +106,11 @@ nlu:
 - intent: out_of_scope
   examples: |
     - મને તમારો વોટ્સએપ નંબર આપો
-    - 2 + 2 શું છે?
-    - ભારતના રાષ્ટ્રપતિ કોણ છે?
+    - 2 + 2 શું છે?    
     - ખેડૂતો ની લડાઈ ક્યારે પૂરી થશે?
 - intent: nlu_fallback
-  examples: |
-    - ખેડૂતો ની લડાઈ ક્યારે પૂરી થશે?
+  examples: |  
+    - ભારતના રાષ્ટ્રપતિ કોણ છે?
 - intent: plant_fertilizer
   examples: |
     - [કેરીની](plant_name) ખાતર માહિતી આપો
@@ -184,6 +183,34 @@ nlu:
     - [રુટ](plant_area) અંદર
     - [સામાન્ય](plant_area)
     - [સામાન્ય](plant_area) માહિતી
+- intent: state_plant_category
+  examples: |
+    - [મસાલાઓના અને મિસ્ટ્રેસ](plant_category)
+    - [ધાન્ય](plant_category)
+    - [ફળો](plant_category)
+    - [તેલીબિયાં](plant_category)
+    - [શાકભાજી](plant_category)
+    - [ડ્રગ અને નશીલી દવાઓ](plant_category)
+    - [ઘાસચારાના પાક](plant_category)
+    - [ફાઇબર પાક](plant_category)
+    - [બાજરી](plant_category)
+    - [ઔષધીય અને સુગંધિત પ્લાન્ટ](plant_category)
+    - [ફૂલો](plant_category)
+    - [કઠોળ](plant_category)
+- lookup: plant_category
+  examples: |
+    - મસાલાઓના અને મિસ્ટ્રેસ
+    - ધાન્ય
+    - ફળો
+    - તેલીબિયાં
+    - શાકભાજી
+    - ડ્રગ અને નશીલી દવાઓ
+    - ઘાસચારાના પાક
+    - ફાઇબર પાક
+    - બાજરી
+    - ઔષધીય અને સુગંધિત પ્લાન્ટ
+    - ફૂલો
+    - કઠોળ
 - lookup: plant_name
   examples: |
     - અન્ય
