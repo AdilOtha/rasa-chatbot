@@ -34,6 +34,7 @@ intents:
 - state_plant_category:
     use_entities:
       - plant_category
+- state_state_name
 - out_of_scope
 - nlu_fallback
 entities:
@@ -42,6 +43,8 @@ entities:
 - plant_problem
 - plant_common_name
 - plant_category
+- state_name
+- commodity_name
 slots:
   plant_problem:
     type: text
@@ -59,8 +62,16 @@ slots:
       type: text
       auto_fill: false
       influence_conversation: false
+  state_name:
+      type: text
+      auto_fill: false
+      influence_conversation: false
+  commodity_name:
+      type: text
+      auto_fill: false
+      influence_conversation: false
   requested_slot:
-    type: text
+    type: any
     influence_conversation: false
 responses:
   utter_greet:
@@ -106,6 +117,8 @@ actions:
 - action_ask_plant_problem
 - action_ask_plant_area
 - action_ask_plant_category
+- action_ask_state_name
+- action_ask_commodity_name
 forms:
   farmer_form:
     plant_category:
@@ -130,9 +143,9 @@ forms:
       type: from_entity
 
   market_form:
-    plant_category:
-    - entity: plant_category
+    state_name:
+    - entity: state_name
       type: from_entity
-    plant_name:
-    - entity: plant_name
+    commodity_name:
+    - entity: commodity_name
       type: from_entity

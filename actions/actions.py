@@ -26,6 +26,7 @@
 #
 #         return []
 
+from os import stat
 from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
@@ -33,7 +34,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, EventType, AllSlotsReset
 from rasa_sdk.types import DomainDict
 
-from .globals import getNames
+from .globals import getNames, getStateNames, marketPriceUrl, stateMap , commodityMap, districtMapInvert, varietiesMapInvert
 
 import requests
 
@@ -348,41 +349,64 @@ class ActionMarketSubmit(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         print(tracker.latest_message)
-        print(tracker.slots)
-        url = 'https://chatapp-node13.herokuapp.com/api/'        
-        message = ''
-        plant_name = tracker.get_slot("plant_name")             
+        print(tracker.slots)        
 
-        print(plant_name)    
+        message = ''        
+        state_name = tracker.get_slot("state_name")
+        commodity_name = tracker.get_slot("commodity_name")
 
-        if type(plant_name) is list:
-            plant_name = plant_name[0]
-            print(plant_name)        
+        print(state_name)    
 
-        message = ''
-        if plant_name == None:
-            message += "કૃપયા કરી પાક નું નામ જણાવજો"        
-        else:
-            message = 'અનાજના નામ:' + plant_name + " \n"
-            body = {                
-                'plant_name': plant_name
-            }
-            result = requests.post(url+'kisanQuery/getPrice',data = body)
+        if type(state_name) is list:
+            state_name = state_name[0]                        
+            print(state_name)
+        if type(commodity_name) is list:
+            commodity_name = commodity_name[0]
+            print(commodity_name)
+        
+        state_name_gu = state_name
+        commodity_name_gu = commodity_name
+
+        if commodity_name in commodityMap.keys() and state_name in stateMap.keys():            
+            commodity_name = commodityMap[commodity_name]
+            state_name = stateMap[state_name]
+
+            url = marketPriceUrl
+            queryParams = {'format': 'json',
+            'filters[state]': state_name,
+            'filters[commodity]': commodity_name
+            }            
+
+            result = requests.get(url, params = queryParams)
             response  = result.json()
-            print(response['data'])
-            if len(response['data']) != 0:
-                print(response['data'][0])
-                message += response['data'][0]['response']
-            else:
-                query = tracker.latest_message['text']
-                print(query)
-                body = {
-                'query': query + "/ બજાર માહિતી"
-                }
-                result = requests.post(url+'fallback/addFallback',data = body)
-                print(result.status_code)
-                #DataInsert(query)
-                message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"            
+            print(response['records'])
+            if response['count'] != 0:
+                state = district = commodity = variety = ''
+                print(response['records'])                
+                for res in response['records']:                    
+
+                    if res['district'] in districtMapInvert.keys():
+                        district = districtMapInvert[res['district']]
+                    else:
+                        district = res['district']                                        
+                    
+                    if res['variety'] in varietiesMapInvert.keys():
+                        variety = varietiesMapInvert[res['variety']]
+                    else:
+                        variety = res['variety']
+                    
+                    message += "રાજ્યનું નામ: {} \n".format(state_name_gu)
+                    message +="જિલ્લાનું નામ: {} \n".format(district)                    
+                    message +="ચીજવસ્તુનું નામ: {} \n".format(commodity_name_gu)
+                    message +="પ્રકારનું નામ: {} \n".format(variety)
+                    message +="આવવાની તારીખ: {} \n".format(res['arrival_date'])
+                    message +="લઘુત્તમ ભાવ: {} \n".format(res['min_price'])
+                    message +="મોડલ ભાવ: {} \n".format(res['modal_price'])
+                    message +="મહત્તમ ભાવ: {} \n$".format(res['max_price'])                                       
+            else:            
+                message += "રાજ્યનું નામ: {}\n ચીજવસ્તુનું નામ: {}\n માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી".format(state_name_gu,commodity_name_gu) 
+        else:
+            message += "રાજ્યનું નામ: {}\n ચીજવસ્તુનું નામ: {}\n માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી".format(state_name_gu,commodity_name_gu)
 
 
         dispatcher.utter_message(text=message)
@@ -478,4 +502,54 @@ class ActionAskPlantCategory(Action):
         message={"payload":"dropDown","data":data}
         dispatcher.utter_message(text="કૃપયા કરી પાક વર્ગ જણાવો", json_message = message)
 
-        return []        
+        return []  
+
+class ActionAskCommodityName(Action):
+
+    def name(self) -> Text:
+        return "action_ask_commodity_name"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print(tracker.latest_message)
+        print(tracker.slots)
+
+        commodity_name = tracker.get_slot("commodity_name")             
+
+        print(commodity_name)    
+
+        if type(commodity_name) is list:
+            commodity_name = commodity_name[0]
+            print(commodity_name)        
+
+        data = getNames('commodity_names')
+        message={"payload":"dropDown","data":data}
+        dispatcher.utter_message(text="કૃપયા કરી ચીજવસ્તુ જણાવો", json_message = message)
+
+        return []
+
+class ActionAskStateName(Action):
+
+    def name(self) -> Text:
+        return "action_ask_state_name"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print(tracker.latest_message)
+        print(tracker.slots)
+
+        state_name = tracker.get_slot("state_name")             
+
+        print(state_name)    
+
+        if type(state_name) is list:
+            state_name = state_name[0]
+            print(state_name)        
+
+        data = getStateNames()
+        message={"payload":"dropDown","data":data}
+        dispatcher.utter_message(text="કૃપયા કરી રાજ્ય જણાવો", json_message = message)
+
+        return []       
