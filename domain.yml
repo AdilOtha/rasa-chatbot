@@ -78,7 +78,7 @@ responses:
   - text: અરે! તમે કેમ છો?
   utter_cheer_up:
   - image: https://i.imgur.com/nGF1K8f.jpg
-    text: તમને ઉત્સાહ આપવા માટે અહીં કંઈક છે
+    text: ચિંતા કરશો નહીં, ખુશ રહો
   utter_did_that_help:
   - text: તે તમને મદદ કરી?
   utter_happy:

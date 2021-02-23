@@ -34,7 +34,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, EventType, AllSlotsReset
 from rasa_sdk.types import DomainDict
 
-from .globals import getNames, getStateNames, marketPriceUrl, stateMap , commodityMap, districtMapInvert, varietiesMapInvert
+from .globals import nodeApiUrl, getNames, getStateNames, marketPriceUrl, stateMap , commodityMap, districtMapInvert, varietiesMapInvert
 
 import requests
 
@@ -50,7 +50,7 @@ class ActionPlantProtect(Action):
         print(tracker.latest_message)
         entities = tracker.latest_message['entities']        
 
-        url = 'https://chatapp-node13.herokuapp.com/api/'
+        
         plant_name = ''
         plant_problem = ''
         plant_area = ''
@@ -82,7 +82,7 @@ class ActionPlantProtect(Action):
                 'plant_area': plant_area,
                 'plant_name': plant_name
             }            
-            result = requests.post(url+'kisanQuery/dataFetch',data = body)            
+            result = requests.post(nodeApiUrl+'kisanQuery/dataFetch',data = body)            
             response  = result.json()            
             if len(response['data']) != 0:
                 print(response['data'][0])
@@ -93,7 +93,7 @@ class ActionPlantProtect(Action):
                 body = {
                 'query': query
                 }
-                result = requests.post(url+'fallback/addFallback',data = body)
+                result = requests.post(nodeApiUrl+'fallback/addFallback',data = body)
                 print(result.status_code)
                 #DataInsert(query)
                 message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"
@@ -110,14 +110,14 @@ class ActionPleaseRephrase(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        url = 'https://chatapp-node13.herokuapp.com/api/'
+        
         print(tracker.latest_message)
         query = tracker.latest_message['text']
         print(query)
         body = {
             'query': query
         }
-        result = requests.post(url+'fallback/addFallback',data = body)
+        result = requests.post(nodeApiUrl+'fallback/addFallback',data = body)
         print(result.status_code)
         # DataInsert(query)
 
@@ -136,7 +136,7 @@ class ActionPlantPrice(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         print(tracker.latest_message)
-        url = 'https://chatapp-node13.herokuapp.com/api/'
+        
         entities = tracker.latest_message['entities']        
 
         plant_name = ''
@@ -153,7 +153,7 @@ class ActionPlantPrice(Action):
             body = {                
                 'plant_name': plant_name
             }
-            result = requests.post(url+'kisanQuery/getPrice',data = body)
+            result = requests.post(nodeApiUrl+'kisanQuery/getPrice',data = body)
             response  = result.json()
             if len(response['data']) != 0:
                 print(response['data'][0])
@@ -164,7 +164,7 @@ class ActionPlantPrice(Action):
                 body = {
                 'query': query
                 }
-                result = requests.post(url+'fallback/addFallback',data = body)
+                result = requests.post(nodeApiUrl+'fallback/addFallback',data = body)
                 print(result.status_code)
                 #DataInsert(query)
                 message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"
@@ -182,7 +182,7 @@ class ActionPlantFertilizer(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        url = 'https://chatapp-node13.herokuapp.com/api/'
+        
         print(tracker.latest_message)
         entities = tracker.latest_message['entities']
 
@@ -200,7 +200,7 @@ class ActionPlantFertilizer(Action):
             body = {                
                 'plant_name': plant_name
             }
-            result = requests.post(url+'kisanQuery/getFertilizer',data = body)
+            result = requests.post(nodeApiUrl+'kisanQuery/getFertilizer',data = body)
             response  = result.json()
             if len(response['data']) != 0:
                 print(response['data'][0])
@@ -211,7 +211,7 @@ class ActionPlantFertilizer(Action):
                 body = {
                 'query': query
                 }
-                result = requests.post(url+'fallback/addFallback',data = body)
+                result = requests.post(nodeApiUrl+'fallback/addFallback',data = body)
                 print(result.status_code)
                 #DataInsert(query)
                 message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"
@@ -230,7 +230,7 @@ class ActionSubmit(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         print(tracker.latest_message)
         print(tracker.slots)
-        url = 'https://chatapp-node13.herokuapp.com/api/'        
+                
         message = ''
         plant_name = tracker.get_slot("plant_name")
         plant_problem = tracker.get_slot("plant_problem")
@@ -268,7 +268,7 @@ class ActionSubmit(Action):
                 'plant_area': plant_area,
                 'plant_name': plant_name
             }
-            result = requests.post(url+'kisanQuery/dataFetch',data = body)
+            result = requests.post(nodeApiUrl+'kisanQuery/dataFetch',data = body)
             response  = result.json()
             print(response['data'])
             if len(response['data']) != 0:
@@ -280,7 +280,7 @@ class ActionSubmit(Action):
                 body = {
                 'query': query
                 }
-                result = requests.post(url+'fallback/addFallback',data = body)
+                result = requests.post(nodeApiUrl+'fallback/addFallback',data = body)
                 print(result.status_code)
                 #DataInsert(query)
                 message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"            
@@ -300,7 +300,7 @@ class ActionFertilizerSubmit(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         print(tracker.latest_message)
         print(tracker.slots)
-        url = 'https://chatapp-node13.herokuapp.com/api/'        
+                
         message = ''
         plant_name = tracker.get_slot("plant_name")             
 
@@ -318,7 +318,7 @@ class ActionFertilizerSubmit(Action):
             body = {                
                 'plant_name': plant_name
             }
-            result = requests.post(url+'kisanQuery/getFertilizer',data = body)
+            result = requests.post(nodeApiUrl+'kisanQuery/getFertilizer',data = body)
             response  = result.json()
             print(response['data'])
             if len(response['data']) != 0:
@@ -330,7 +330,7 @@ class ActionFertilizerSubmit(Action):
                 body = {
                 'query': query + "/ ખાતર માહિતી"
                 }
-                result = requests.post(url+'fallback/addFallback',data = body)
+                result = requests.post(nodeApiUrl+'fallback/addFallback',data = body)
                 print(result.status_code)
                 #DataInsert(query)
                 message += "માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી"            
@@ -370,14 +370,13 @@ class ActionMarketSubmit(Action):
         if commodity_name in commodityMap.keys() and state_name in stateMap.keys():            
             commodity_name = commodityMap[commodity_name]
             state_name = stateMap[state_name]
-
-            url = marketPriceUrl
+            
             queryParams = {'format': 'json',
             'filters[state]': state_name,
             'filters[commodity]': commodity_name
             }            
 
-            result = requests.get(url, params = queryParams)
+            result = requests.get(marketPriceUrl, params = queryParams)
             response  = result.json()
             print(response['records'])
             if response['count'] != 0:

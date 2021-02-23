@@ -2,3 +2,6 @@ models
 ngrok.exe
 test_cases.txt
 testcases
+.dockerignore
+Dockerfile
+start_services.sh

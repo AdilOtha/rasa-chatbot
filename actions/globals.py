@@ -1,11 +1,8 @@
 from typing import List
 
-
 import yaml
-from pathlib import Path
-
-import mysql.connector
 import requests
+from pathlib import Path
 
 def getNames(input, value = None):
     base_path = Path(__file__).parent
@@ -24,17 +21,15 @@ def getNames(input, value = None):
                 # print(x)
                 data.append(x.replace('- ', ''))
             # print(data)
-        else:
-            mydb = mysql.connector.connect(host="localhost", user="root", passwd="", database="kisan")
-            mycursor = mydb.cursor(buffered=True)
-            if value == 'ધાન્ય':
-                value = 'અનાજ'
-            sql = "SELECT DISTINCT `crop` FROM `query` WHERE `category` LIKE '%{}%'".format(value)
-            mycursor.execute(sql)            
-            for x in mycursor:                
-                # print(x[0])
-                data.append(x[0])
-            print(data)
+        else:            
+            body = {                
+                'category': value
+            }
+            result = requests.post(nodeApiUrl+'kisanQuery/getPlantNames',data = body)
+            response  = result.json()
+            if len(response['data']) != 0:
+                data = response['data']
+                print(data)            
     elif input == 'plant_problems':
         plant_problems = doc['nlu'][length-1]['examples']
         plant_list = plant_problems.splitlines()
@@ -77,6 +72,8 @@ def getStateNames():
     "ઉત્તરપ્રદેશ",
     "ઉત્તરાખંડ",
     "પશ્ચિમ બંગાળ"]
+
+nodeApiUrl = 'https://chatapp-node13.herokuapp.com/api/'
 
 marketPriceUrl = "http://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b"
 
