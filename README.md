@@ -5,4 +5,4 @@
 #### Get information for suitable fertilizers, according to plant category and name.
 #### Get daily market price info from various sources, according to geographical state and plant name.
 
-#### Model used from fastText (language code: gu) and converted to SpaCy for use in Rasa.
+##### Model used from fastText (language code: gu) and converted to SpaCy for use in Rasa.
