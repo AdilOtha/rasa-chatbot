@@ -5,3 +5,4 @@ testcases
 .dockerignore
 Dockerfile
 start_services.sh
+gujarati_model_fastText
