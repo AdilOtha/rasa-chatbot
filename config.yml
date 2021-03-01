@@ -1,4 +1,4 @@
-language: "gu"
+language: "gu_model"
 pipeline:
   # this is using the spacy sklearn pipeline, adding duckling
   # all components will use their default values

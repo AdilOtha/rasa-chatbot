@@ -34,7 +34,12 @@ intents:
 - state_plant_category:
     use_entities:
       - plant_category
-- state_state_name
+- state_state_name:
+    use_entities:
+      - state_name
+- state_commodity_name:
+    use_entities:
+      - commodity_name
 - out_of_scope
 - nlu_fallback
 entities:
@@ -75,10 +80,9 @@ slots:
     influence_conversation: false
 responses:
   utter_greet:
-  - text: અરે! તમે કેમ છો?
+  - text: હેલ્લો! તમે કેમ છો?
   utter_cheer_up:
-  - image: https://i.imgur.com/nGF1K8f.jpg
-    text: ચિંતા કરશો નહીં, ખુશ રહો
+  - text: ચિંતા કરશો નહીં, ખુશ રહો
   utter_did_that_help:
   - text: તે તમને મદદ કરી?
   utter_happy:

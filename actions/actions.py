@@ -34,7 +34,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, EventType, AllSlotsReset
 from rasa_sdk.types import DomainDict
 
-from .globals import nodeApiUrl, getNames, getStateNames, marketPriceUrl, stateMap , commodityMap, districtMapInvert, varietiesMapInvert
+from .globals import nodeApiUrl, getNames, getStateNames, marketPriceUrl, stateMap , commodityMap, districtMapInvert, varietiesMapInvert, marketMapInvert
 
 import requests
 
@@ -380,14 +380,20 @@ class ActionMarketSubmit(Action):
             response  = result.json()
             print(response['records'])
             if response['count'] != 0:
-                state = district = commodity = variety = ''
-                print(response['records'])                
+                state = district = commodity = variety = market = ''
+                print(response['records'])
+                message += "(₹ / ક્વિન્ટલમાં ભાવ)\n"                
                 for res in response['records']:                    
 
                     if res['district'] in districtMapInvert.keys():
                         district = districtMapInvert[res['district']]
                     else:
-                        district = res['district']                                        
+                        district = res['district']
+
+                    if res['market'] in marketMapInvert.keys():
+                        market = marketMapInvert[res['market']]
+                    else:
+                        market = res['market']                                        
                     
                     if res['variety'] in varietiesMapInvert.keys():
                         variety = varietiesMapInvert[res['variety']]
@@ -395,13 +401,14 @@ class ActionMarketSubmit(Action):
                         variety = res['variety']
                     
                     message += "રાજ્યનું નામ: {} \n".format(state_name_gu)
-                    message +="જિલ્લાનું નામ: {} \n".format(district)                    
+                    message +="જિલ્લાનું નામ: {} \n".format(district)
+                    message +="મંડીનું નામ: {} \n".format(market)                    
                     message +="ચીજવસ્તુનું નામ: {} \n".format(commodity_name_gu)
                     message +="પ્રકારનું નામ: {} \n".format(variety)
                     message +="આવવાની તારીખ: {} \n".format(res['arrival_date'])
                     message +="લઘુત્તમ ભાવ: {} \n".format(res['min_price'])
                     message +="મોડલ ભાવ: {} \n".format(res['modal_price'])
-                    message +="મહત્તમ ભાવ: {} \n$".format(res['max_price'])                                       
+                    message +="મહત્તમ ભાવ: {} \n_______________\n".format(res['max_price'])                                       
             else:            
                 message += "રાજ્યનું નામ: {}\n ચીજવસ્તુનું નામ: {}\n માફ કરજો, અત્યારે આ જાણકારી અમારી પાસે નથી".format(state_name_gu,commodity_name_gu) 
         else:
