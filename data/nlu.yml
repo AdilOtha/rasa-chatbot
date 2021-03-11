@@ -83,7 +83,7 @@ nlu:
     - કોણ બોલે છે?
     - આ કોણ બોલે છે?
 - intent: plant_protect
-  examples: |    
+  examples: |
     - [તમાકુ](plant_name) માં [લાર્વા](plant_problem) નિયંત્રણ માહિતી
     - [તમાકુ](plant_name) ના પાક માં [લાર્વા](plant_problem) નિયંત્રણ માહિતી
     - [ટામેટા](plant_name) માં [નીંદણ](plant_problem) નિયંત્રણ માહિતી આપો
@@ -126,11 +126,11 @@ nlu:
 - intent: out_of_scope
   examples: |
     - મને તમારો વોટ્સએપ નંબર આપો
-    - 2 + 2 શું છે?    
+    - 2 + 2 શું છે?
     - ખેડૂતો ની લડાઈ ક્યારે પૂરી થશે?
     - સોનમ ગુપ્તા બેવફા હૈ
 - intent: nlu_fallback
-  examples: |  
+  examples: |
     - ભારતના રાષ્ટ્રપતિ કોણ છે?
 - intent: plant_fertilizer
   examples: |
@@ -193,7 +193,6 @@ nlu:
     - મારે [તુલસીના](plant_name) અનાજમાં સમસ્યા છે
     - [ટામેટા](plant_name)
     - [કપાસ](plant_name)
-    - [લીંબુ](plant_name)
     - [ડુંગળી](plant_name)
     - [ઘઉં](plant_name)
     - [બોવાઇન](plant_name)
@@ -498,7 +497,6 @@ nlu:
     - ગ્યુંઅવા
     - લવિંગ
     - સીતાફળ
-
 - lookup: plant_problem
   examples: |
     - સામાન્ય માહિતી
@@ -515,4 +513,4 @@ nlu:
     - ઊધઇ
     - નેમાટોડે
     - વૃદ્ધિ
-    - ફૂલો
+    - ફૂલોની સમસ્યા

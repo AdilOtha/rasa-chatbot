@@ -251,6 +251,8 @@ class ActionSubmit(Action):
 
         if plant_area == 'સામાન્ય':
             plant_area = ''
+        if plant_problem == 'ફૂલોની સમસ્યા':
+            plant_problem = 'ફૂલો'
 
         message = ''
         if plant_name == None and plant_problem == None:
